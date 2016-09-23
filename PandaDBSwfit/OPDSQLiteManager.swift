@@ -72,6 +72,7 @@ class OPDSQLiteManager: NSObject {
         }
         
         print("打开数据库成功:\(path)")
+        
     }
     
     /**
@@ -95,7 +96,42 @@ class OPDSQLiteManager: NSObject {
          */
 
         let success =  (sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK)
+        _ = String(utf8String: error!)
         return success
+    }
+    
+    func executeQuery(sql:String,params:Dictionary<String,Any>) {
+        //sqlite3_stmt 指针
+        var stmt:OpaquePointer? = nil
+        
+        let prepare_result = sqlite3_prepare_v2(db, sql, -1, &stmt, nil)
+        
+        if prepare_result != SQLITE_OK {
+           let error = sqlite3_errmsg(db)
+        }
+        
+        let count = sqlite3_bind_parameter_count(stmt)
+        
+        for index in 1...count {
+            
+            let name:String = String(utf8String: sqlite3_bind_parameter_name(stmt,index))!
+            
+            let param = name.substring(from: name.index(name.startIndex, offsetBy: 1))
+            
+            let value = params[param]!
+            
+            let stringValue = value as! String
+                
+            sqlite3_bind_text(stmt,index,stringValue.cString(using: .utf8)!,-1,nil)
+
+        }
+        
+         var step_result = sqlite3_step(stmt)
+
+        sqlite3_finalize(stmt);
+        print(count)
+        
+        
     }
     
 }

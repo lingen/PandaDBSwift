@@ -27,9 +27,17 @@ class PandaDBSwfitTests: XCTestCase {
         
         dbManager.openDB(dbName: "abc.sqlite")
         
-        let sql:String = "create table if not exists students_2 (id integer primary key autoincrement,name text,stuId integer)"
+//        let sql:String = "insert into students_2 (name,stuId) values (:name,:stuId)"
+//        
+//        
+//        
+//        let params:Dictionary<String,Any> = ["name":"aaa","stuId":"123"]
         
-        let success = dbManager.execSQL(sql: sql)
+        let sql:String = "select * from students_2 where name = :name"
+        
+        let params:Dictionary<String,Any> = ["name":"aaa"]
+        
+        let success = dbManager.executeQuery(sql: sql,params: params)
         
         print(success)
         
