@@ -21,35 +21,67 @@ class PandaDBSwfitTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testCreateTable() {
         
         let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
         
         dbManager.openDB(dbName: "abc.sqlite")
         
-//        let sql:String = "insert into students_2 (name,stuId) values (:name,:stuId)"
-//        
-//        
-//        
-//        let params:Dictionary<String,Any> = ["name":"aaa","stuId":"123"]
+        let createTableSQL:String = "create table if not exists users (name text not null, age int )"
+
         
-        let sql:String = "select * from students_2 where name = :name"
-        
-        let params:Dictionary<String,Any> = ["name":"aaa"]
-        
-        let success = dbManager.executeQuery(sql: sql,params: params)
+        let success = dbManager.executeUpdate(sql: createTableSQL)
         
         print(success)
         
         dbManager.close()
     }
     
+    func testInsertData() {
+        let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
+        
+        dbManager.openDB(dbName: "abc.sqlite")
+        
+        let insertTableSQL = "insert into users (name,age) values (:name,:age)"
+        
+        let params:Dictionary<String,Any> = ["age":2,"name":"CCC"]
+        
+        
+        let success = dbManager.executeUpdate(sql: insertTableSQL, params: params)
+        
+        print("插入表结构 :\(success)")
+        
+        
+        dbManager.close()
+        
+    }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testDeleteDatas() {
+        let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
+        
+        dbManager.openDB(dbName: "abc.sqlite")
+        
+        let createTableSQL:String = "delete from users"
+        
+        
+        let success = dbManager.executeUpdate(sql: createTableSQL)
+        
+        print(success)
+        
+        dbManager.close()
+    }
+    
+    func testQuery() {
+        let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
+        dbManager.openDB(dbName: "abc.sqlite")
+        
+        
+        let querySQL:String = "select * from users"
+        
+        let results = dbManager.executeQuery(sql: querySQL, params: [:])
+        
+        print("查询出来的结果是：\(results)")
+        dbManager.close()
     }
     
 }

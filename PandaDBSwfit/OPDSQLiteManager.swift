@@ -22,7 +22,10 @@ class OPDSQLiteManager: NSObject {
     static let instance:OPDSQLiteManager = OPDSQLiteManager();
     
     
+    private let SQLITE_STATIC = unsafeBitCast(0, to:sqlite3_destructor_type.self)
     
+    private let SQLITE_TRANSIENT = unsafeBitCast(-1, to:sqlite3_destructor_type.self)
+
     
     private override init() {
         
@@ -80,7 +83,7 @@ class OPDSQLiteManager: NSObject {
      - parameter sql: sql语句
      - returns: sql语句是否执行成功
      */
-    func execSQL(sql: String) -> Bool {
+    func executeUpdate(sql: String) -> Bool {
         /**
          sqlite执行sql语句:
          
@@ -96,18 +99,21 @@ class OPDSQLiteManager: NSObject {
          */
 
         let success =  (sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK)
-        _ = String(utf8String: error!)
+//        _ = String(utf8String: error!)
         return success
     }
     
-    func executeQuery(sql:String,params:Dictionary<String,Any>) {
-        //sqlite3_stmt 指针
+    //执行一个带 参数的 SQL
+    func executeUpdate(sql:String,params:Dictionary<String,Any>) -> Bool {
+        
         var stmt:OpaquePointer? = nil
         
-        let prepare_result = sqlite3_prepare_v2(db, sql, -1, &stmt, nil)
+        sqlite3_exec(db, "BEGIN TRANSACTION;", nil, nil, nil);
         
+        let prepare_result = sqlite3_prepare_v2(db, sql, -1, &stmt, nil)
+
         if prepare_result != SQLITE_OK {
-           let error = sqlite3_errmsg(db)
+            return false
         }
         
         let count = sqlite3_bind_parameter_count(stmt)
@@ -120,17 +126,121 @@ class OPDSQLiteManager: NSObject {
             
             let value = params[param]!
             
-            let stringValue = value as! String
+            
+            if value is String {
+                let stringValue:String = value as! String
                 
-            sqlite3_bind_text(stmt,index,stringValue.cString(using: .utf8)!,-1,nil)
+                sqlite3_bind_text(stmt,index,stringValue,-1,SQLITE_TRANSIENT)
+                
+                print("COUNT:\(index),value:\(stringValue)")
+                
+            }else if value is Int {
+                let intValue:Int = value as! Int
+                
+                sqlite3_bind_int(stmt, index, Int32(intValue))
+                
+                print("COUNT:\(index),value:\(intValue)")
 
+            }
+            
         }
         
-         var step_result = sqlite3_step(stmt)
-
-        sqlite3_finalize(stmt);
-        print(count)
+        let step_result = sqlite3_step(stmt)
         
+        sqlite3_finalize(stmt)
+        
+        sqlite3_exec(db, "COMMIT", nil, nil, nil);
+        
+        if step_result == SQLITE_OK || step_result == SQLITE_DONE {
+            return true
+        }
+        
+        
+        return false
+    }
+    
+    
+    func executeQuery(sql:String,params:Dictionary<String,Any>) -> Array<Dictionary<String,Any>>? {
+        
+        var stmt:OpaquePointer? = nil
+        
+        let prepare_result = sqlite3_prepare_v2(db, sql, -1, &stmt, nil)
+        
+        var results:Array<Dictionary<String,Any>>? = nil
+        
+        if prepare_result != SQLITE_OK {
+            return results
+        }
+        
+        let count = sqlite3_bind_parameter_count(stmt)
+        
+        if count > 0 {
+            for index in 1...count {
+                
+                let name:String = String(utf8String: sqlite3_bind_parameter_name(stmt,index))!
+                
+                let param = name.substring(from: name.index(name.startIndex, offsetBy: 1))
+                
+                let value = params[param]!
+                
+                
+                if value is String {
+                    let stringValue:String = value as! String
+                    
+                    sqlite3_bind_text(stmt,index,stringValue,-1,SQLITE_TRANSIENT)
+                    
+                    print("COUNT:\(index),value:\(stringValue)")
+                    
+                }else if value is Int {
+                    let intValue:Int = value as! Int
+                    
+                    sqlite3_bind_int(stmt, index, Int32(intValue))
+                    
+                    print("COUNT:\(index),value:\(intValue)")
+                    
+                    
+                    
+                }
+                
+            }
+        }
+
+        
+        var step_result = sqlite3_step(stmt)
+        
+        results = []
+        
+        while step_result == SQLITE_ROW {
+            
+            var rowData:Dictionary<String,Any> = [:]
+            
+            let columnCount = sqlite3_column_count(stmt)
+            
+            for index in 0..<columnCount {
+                let name:String = String(validatingUTF8:sqlite3_column_name(stmt, index))!
+                
+                let columnType = sqlite3_column_decltype(stmt, index)
+                
+                let tmp = String(validatingUTF8:columnType!)!.uppercased()
+                
+                if tmp == "TEXT" {
+                    let vv = sqlite3_column_text(stmt, index)
+                    
+                    rowData[name] = String(cString: vv!)
+                }
+                
+                else if tmp == "INT" {
+                    let vv = sqlite3_column_int(stmt, index)
+                    rowData[name] = Int(vv)
+                }
+            }
+            
+            results!.append(rowData)
+            
+            step_result = sqlite3_step(stmt)
+        }
+        
+        return results
         
     }
     
