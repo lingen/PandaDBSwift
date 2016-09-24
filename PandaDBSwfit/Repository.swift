@@ -26,6 +26,10 @@ class Repository: NSObject {
     
     private let QUERY_CURRENT_VERSION = "SELECT VALUE_ FROM PANDA_VERSION_ LIMIT 1"
     
+    private let UPDATE_VERSION = "UPDATE PANDA_VERSION_ SET VALUE_ = :value"
+
+    var updateBlock:((_ from:Int,_ to:Int)->String)? = nil
+    
     private init(dbName:String,tables:Array<(Void)->Table>,version:Int){
         self.dbHelper = SQLiteManager.createInstance(dbName: dbName)
         self.queue = DispatchQueue(label: "Panda.DB.Swift.\(dbName)")
@@ -35,6 +39,17 @@ class Repository: NSObject {
     
     class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int) -> Repository{
         let repository = Repository(dbName: dbName, tables: tables, version: version)
+        let success = repository.open()
+        if success {
+            repository.initOrUpdateRepository()
+        }
+        return repository
+    }
+    
+    class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int,updateBlock:((_ from:Int,_ to:Int)->String)? ) -> Repository{
+        let repository = Repository(dbName: dbName, tables: tables, version: version)
+        repository.updateBlock = updateBlock;
+    
         let success = repository.open()
         if success {
             repository.initOrUpdateRepository()
@@ -98,6 +113,38 @@ class Repository: NSObject {
     
     private func updateRepository(){
         
+        if self.updateBlock == nil {
+            return
+        }
+        
+        self.queue.sync {
+            self.dbHelper.beginTransaction()
+            self.markInTrsaction()
+            
+            let sqlVersionDic = self.executeSingleQuery(sql: QUERY_CURRENT_VERSION)
+            let currentVersion:Int = (sqlVersionDic?["value_"])! as! Int
+            var sqls:String = ""
+            if currentVersion < self.version {
+                for index in currentVersion ..< self.version {
+                    let sql = self.updateBlock!(index,index+1)
+                    sqls.append(sql)
+                }
+            }
+            
+            var success = self.dbHelper.executeUpdate(sql: sqls)
+            
+            //更新版本号
+            success = self.dbHelper.executeUpdate(sql: UPDATE_VERSION, params: ["value":self.version])
+            
+            if success {
+                self.dbHelper.commit()
+            }else{
+                print("Panda Error：版本更新失败")
+                self.dbHelper.rollback()
+            }
+            self.cancelMarkInTransaction()
+            
+        }
     }
     
     

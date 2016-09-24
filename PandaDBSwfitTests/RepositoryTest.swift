@@ -136,13 +136,32 @@ class RepositoryTest: XCTestCase {
     func testSingleQuery() {
         let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 1)
         
-        
-            let results = repository.executeSingleQuery(sql: "select * from users where name = 'AAA1'")
-            print("查询结果:\(results)")
+        let results = repository.executeSingleQuery(sql: "select * from users where name = 'AAA1'")
+        print("查询结果:\(results)")
         
         
         defer {
             repository.close()
         }
+    }
+    
+    func testUpdate() {
+        let updateBlock = { (from,to) -> String in
+            return self.update(from: from, to: to)
+        }
+        
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 2, updateBlock:updateBlock)
+        
+        let results = repository.executeSingleQuery(sql: "select * from users where name = 'AAA1'")
+        print("查询结果:\(results)")
+        
+        defer {
+            repository.close()
+        }
+
+    }
+    
+    func update(from:Int,to:Int) -> String {
+        return "delete from users"
     }
 }
