@@ -23,7 +23,7 @@ class PandaDBSwfitTests: XCTestCase {
     
     func testCreateTable() {
         
-        let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
+        let dbManager:SQLiteManager = SQLiteManager.sharedInstance()
         
         dbManager.openDB(dbName: "abc.sqlite")
         
@@ -38,26 +38,61 @@ class PandaDBSwfitTests: XCTestCase {
     }
     
     func testInsertData() {
-        let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
+        let dbManager:SQLiteManager = SQLiteManager.sharedInstance()
         
         dbManager.openDB(dbName: "abc.sqlite")
         
-        let insertTableSQL = "insert into users (name,age) values (:name,:age)"
+        let now:Date = Date()
+        let begin:TimeInterval = now.timeIntervalSince1970
         
-        let params:Dictionary<String,Any> = ["age":2,"name":"CCC"]
+        for index in 1 ... 1000 {
+            let insertTableSQL = "insert into users (name,age) values (:name,:age)"
+            
+            let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)"]
+            
+            let success = dbManager.executeUpdate(sql: insertTableSQL, params: params)
+            
+            print("插入表数据 :\(success)")
+        }
         
+        let end = Date().timeIntervalSince1970 - begin
         
-        let success = dbManager.executeUpdate(sql: insertTableSQL, params: params)
+        print("非批量情况下的耗时:\(end)")
+        dbManager.close()
         
-        print("插入表结构 :\(success)")
+    }
+    
+    func testBatchInsertData() {
+        let dbManager:SQLiteManager = SQLiteManager.sharedInstance()
         
+        dbManager.openDB(dbName: "abc.sqlite")
         
+        let now:Date = Date()
+        let begin:TimeInterval = now.timeIntervalSince1970
+        
+        dbManager.beginTransaction()
+        
+        for index in 1 ... 1000 {
+            let insertTableSQL = "insert into users (name,age) values (:name,:age)"
+            
+            let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)"]
+            
+            let success = dbManager.executeUpdate(sql: insertTableSQL, params: params)
+            
+            print("插入表数据 :\(success)")
+        }
+        
+        dbManager.commit()
+        
+        let end = Date().timeIntervalSince1970 - begin
+        
+        print("批量情况下的耗时:\(end)")
         dbManager.close()
         
     }
     
     func testDeleteDatas() {
-        let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
+        let dbManager:SQLiteManager = SQLiteManager.sharedInstance()
         
         dbManager.openDB(dbName: "abc.sqlite")
         
@@ -72,7 +107,7 @@ class PandaDBSwfitTests: XCTestCase {
     }
     
     func testQuery() {
-        let dbManager:OPDSQLiteManager = OPDSQLiteManager.sharedInstance()
+        let dbManager:SQLiteManager = SQLiteManager.sharedInstance()
         dbManager.openDB(dbName: "abc.sqlite")
         
         

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		671AD02E1D95FE7C00925A8C /* SQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */; };
 		6746360F1D9247F000B49C42 /* PandaDBSwfit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 674636051D9247F000B49C42 /* PandaDBSwfit.framework */; };
 		674636141D9247F000B49C42 /* PandaDBSwfitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674636131D9247F000B49C42 /* PandaDBSwfitTests.swift */; };
 		674636211D92480200B49C42 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 674636201D92480200B49C42 /* libsqlite3.tbd */; };
-		674636241D9249AC00B49C42 /* OPDSQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674636231D9249AC00B49C42 /* OPDSQLiteManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteManager.swift; sourceTree = "<group>"; };
 		674636051D9247F000B49C42 /* PandaDBSwfit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PandaDBSwfit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		674636091D9247F000B49C42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6746360E1D9247F000B49C42 /* PandaDBSwfitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PandaDBSwfitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,7 +32,6 @@
 		674636151D9247F000B49C42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		674636201D92480200B49C42 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		674636221D92487E00B49C42 /* SQLite-Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SQLite-Bridge.h"; sourceTree = "<group>"; };
-		674636231D9249AC00B49C42 /* OPDSQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OPDSQLiteManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,9 +76,9 @@
 		674636071D9247F000B49C42 /* PandaDBSwfit */ = {
 			isa = PBXGroup;
 			children = (
+				671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */,
 				674636221D92487E00B49C42 /* SQLite-Bridge.h */,
 				674636091D9247F000B49C42 /* Info.plist */,
-				674636231D9249AC00B49C42 /* OPDSQLiteManager.swift */,
 			);
 			path = PandaDBSwfit;
 			sourceTree = "<group>";
@@ -212,7 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				674636241D9249AC00B49C42 /* OPDSQLiteManager.swift in Sources */,
+				671AD02E1D95FE7C00925A8C /* SQLiteManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +422,7 @@
 				6746361B1D9247F000B49C42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6746361C1D9247F000B49C42 /* Build configuration list for PBXNativeTarget "PandaDBSwfitTests" */ = {
 			isa = XCConfigurationList;
@@ -430,6 +431,7 @@
 				6746361E1D9247F000B49C42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

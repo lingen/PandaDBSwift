@@ -12,14 +12,14 @@ import Foundation
 /**
  * SQLite数据库管理类
  */
-class OPDSQLiteManager: NSObject {
+class SQLiteManager: NSObject {
     
     
     typealias CCharPointer = UnsafeMutablePointer<CChar>
 
     
     //单例对象
-    static let instance:OPDSQLiteManager = OPDSQLiteManager();
+    static let instance:SQLiteManager = SQLiteManager();
     
     
     private let SQLITE_STATIC = unsafeBitCast(0, to:sqlite3_destructor_type.self)
@@ -31,7 +31,7 @@ class OPDSQLiteManager: NSObject {
         
     }
 
-    public class func sharedInstance() -> OPDSQLiteManager {
+    public class func sharedInstance() -> SQLiteManager {
         return .instance
     }
     
@@ -103,12 +103,23 @@ class OPDSQLiteManager: NSObject {
         return success
     }
     
+    func beginTransaction() {
+        sqlite3_exec(db, "BEGIN TRANSACTION;", nil, nil, nil);
+    }
+    
+    func commit() {
+        sqlite3_exec(db, "COMMIT;", nil, nil, nil);
+    }
+    
+    func rollback() {
+        sqlite3_exec(db, "ROLLBACK;", nil, nil, nil);
+    }
     //执行一个带 参数的 SQL
     func executeUpdate(sql:String,params:Dictionary<String,Any>) -> Bool {
         
         var stmt:OpaquePointer? = nil
         
-        sqlite3_exec(db, "BEGIN TRANSACTION;", nil, nil, nil);
+        
         
         let prepare_result = sqlite3_prepare_v2(db, sql, -1, &stmt, nil)
 
@@ -149,7 +160,7 @@ class OPDSQLiteManager: NSObject {
         
         sqlite3_finalize(stmt)
         
-        sqlite3_exec(db, "COMMIT", nil, nil, nil);
+        
         
         if step_result == SQLITE_OK || step_result == SQLITE_DONE {
             return true
