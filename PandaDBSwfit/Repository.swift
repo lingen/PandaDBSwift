@@ -26,7 +26,6 @@ class Repository: NSObject {
     
     private let QUERY_CURRENT_VERSION = "SELECT VALUE_ FROM PANDA_VERSION_ LIMIT 1"
     
-    
     private init(dbName:String,tables:Array<(Void)->Table>,version:Int){
         self.dbHelper = SQLiteManager.createInstance(dbName: dbName)
         self.queue = DispatchQueue(label: "Panda.DB.Swift.\(dbName)")
@@ -36,8 +35,10 @@ class Repository: NSObject {
     
     class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int) -> Repository{
         let repository = Repository(dbName: dbName, tables: tables, version: version)
-        repository.open()
-        repository.initOrUpdateRepository()
+        let success = repository.open()
+        if success {
+            repository.initOrUpdateRepository()
+        }
         return repository
     }
     
@@ -49,7 +50,6 @@ class Repository: NSObject {
             self.initRepository()
         }
     }
-    
     
     private func initRepository(){
         self.queue.sync {
@@ -85,8 +85,14 @@ class Repository: NSObject {
                 sqls.append(createSQL)
                 sqls.append(indexSQL)
             }
-            self.dbHelper.executeUpdate(sql: sqls)
-            self.dbHelper.commit()
+            success = self.dbHelper.executeUpdate(sql: sqls)
+            if success {
+                self.dbHelper.commit()
+            }else{
+                print("Panda Error：建表初始化失败")
+                self.dbHelper.rollback()
+            }
+
         }
     }
     

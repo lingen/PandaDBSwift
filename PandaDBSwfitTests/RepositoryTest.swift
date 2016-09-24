@@ -103,7 +103,7 @@ class RepositoryTest: XCTestCase {
         
         
         let batchInsert = {
-            for index in 0...10000 {
+            for index in 0...5000 {
                 let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
                 let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABCAAAAAAAAAAABBBBBBBCCCCCCC\(index)".utf8))]
                 let success = repository.executeUpdate(sql: insertTableSQL, params: params)
