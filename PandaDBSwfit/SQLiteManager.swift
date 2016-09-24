@@ -24,12 +24,13 @@ class SQLiteManager: NSObject {
     
     private let SQLITE_TRANSIENT = unsafeBitCast(-1, to:sqlite3_destructor_type.self)
     
-    
     private var db: OpaquePointer? = nil
     
     private var dbName:String
     
     private var errorMsg:String?
+    
+    private var inTransaction:Bool = false
     
     private init(dbName:String) {
         self.dbName = dbName
@@ -108,15 +109,21 @@ class SQLiteManager: NSObject {
     }
     
     func beginTransaction() {
+        print("事务被开启")
         sqlite3_exec(db,SQLiteManager.BEGIN_TRANSACTION, nil, nil, nil);
+        self.inTransaction = true
     }
     
     func commit() {
+        print("事务被提交")
         sqlite3_exec(db, SQLiteManager.COMMIT, nil, nil, nil);
+        self.inTransaction = false
     }
     
     func rollback() {
+        print("事务被关闭")
         sqlite3_exec(db, SQLiteManager.ROLLBACK, nil, nil, nil);
+        self.inTransaction = false
     }
     
     
@@ -142,15 +149,11 @@ class SQLiteManager: NSObject {
                     let stringValue:String = value as! String
                     
                     sqlite3_bind_text(stmt,index,stringValue,-1,SQLITE_TRANSIENT)
-                                        
-                    print("COUNT:\(index),value:\(stringValue)")
                     
                 }else if value is Int {
                     let intValue:Int = value as! Int
                     
                     sqlite3_bind_int(stmt, index, Int32(intValue))
-                    
-                    print("COUNT:\(index),value:\(intValue)")
                     
                 }
                 else if value is Double {
@@ -276,5 +279,9 @@ class SQLiteManager: NSObject {
         }
         
         return (copySql,copyPrams)
+    }
+    
+    func isInTransaction() -> Bool {
+        return self.inTransaction
     }
 }

@@ -17,6 +17,8 @@
 		672EDE691D965E8200A97017 /* RepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE681D965E8200A97017 /* RepositoryTest.swift */; };
 		6746360F1D9247F000B49C42 /* PandaDBSwfit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 674636051D9247F000B49C42 /* PandaDBSwfit.framework */; };
 		674636211D92480200B49C42 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 674636201D92480200B49C42 /* libsqlite3.tbd */; };
+		678C9A3D1D96891F00AF8CB2 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678C9A3C1D96891F00AF8CB2 /* Users.swift */; };
+		678C9A3F1D96ABF700AF8CB2 /* TableHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678C9A3E1D96ABF700AF8CB2 /* TableHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		674636151D9247F000B49C42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		674636201D92480200B49C42 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		674636221D92487E00B49C42 /* SQLite-Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SQLite-Bridge.h"; sourceTree = "<group>"; };
+		678C9A3C1D96891F00AF8CB2 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		678C9A3E1D96ABF700AF8CB2 /* TableHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +95,7 @@
 				671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */,
 				672EDE571D964E2400A97017 /* Column.swift */,
 				672EDE5A1D96535C00A97017 /* Table.swift */,
+				678C9A3E1D96ABF700AF8CB2 /* TableHelper.swift */,
 				672EDE641D965DCA00A97017 /* TableProtocol.swift */,
 				672EDE5E1D96598A00A97017 /* Repository.swift */,
 				674636221D92487E00B49C42 /* SQLite-Bridge.h */,
@@ -107,6 +112,7 @@
 				672EDE501D964B8F00A97017 /* SQLiteManagerTests.swift */,
 				672EDE5C1D96587300A97017 /* CreateTableTest.swift */,
 				672EDE681D965E8200A97017 /* RepositoryTest.swift */,
+				678C9A3C1D96891F00AF8CB2 /* Users.swift */,
 			);
 			path = PandaDBSwfitTests;
 			sourceTree = "<group>";
@@ -234,6 +240,7 @@
 			files = (
 				672EDE5B1D96535C00A97017 /* Table.swift in Sources */,
 				671AD02E1D95FE7C00925A8C /* SQLiteManager.swift in Sources */,
+				678C9A3F1D96ABF700AF8CB2 /* TableHelper.swift in Sources */,
 				672EDE581D964E2400A97017 /* Column.swift in Sources */,
 				672EDE651D965DCA00A97017 /* TableProtocol.swift in Sources */,
 				672EDE5F1D96598A00A97017 /* Repository.swift in Sources */,
@@ -244,6 +251,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				678C9A3D1D96891F00AF8CB2 /* Users.swift in Sources */,
 				672EDE5D1D96587300A97017 /* CreateTableTest.swift in Sources */,
 				672EDE511D964B8F00A97017 /* SQLiteManagerTests.swift in Sources */,
 				672EDE691D965E8200A97017 /* RepositoryTest.swift in Sources */,

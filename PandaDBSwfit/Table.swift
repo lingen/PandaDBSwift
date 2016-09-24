@@ -65,7 +65,7 @@ class Table: NSObject {
     private func primayKeySQL() -> String {
         var primaryKeySQL = ""
         
-        if primaryColumns != nil {
+        if primaryColumns != nil && (primaryColumns?.count)! > 0 {
             primaryKeySQL.append("PRIMARY KEY(")
             let columns:Array<Column> = primaryColumns!
             for index in 0..<(columns.count) {

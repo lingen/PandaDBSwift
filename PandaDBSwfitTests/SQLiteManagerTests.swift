@@ -27,6 +27,8 @@ class SQLiteManagerTests: XCTestCase {
         
         let dbManager:SQLiteManager = SQLiteManager.createInstance(dbName: dbName)
         
+        
+        
         let success = dbManager.open()
         
         if success {

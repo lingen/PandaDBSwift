@@ -13,25 +13,136 @@ class RepositoryTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testRepositoryForTableExists() {
+    func testQueryTableExists() {
         
-        let repository = Repository(dbName: "abc.sqlite", tables: [], version: 1)
-        
-        let open = repository.open()
-        
-        if open {
-            let exists = repository.tableExists(tableName: "USERS_1")
-            print("表是否存在:\(exists)")
+        let usersBlock = { () -> Table in
+            Users.createTable()
         }
+        
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [usersBlock], version: 1)
 
+        let exists = repository.tableExists(tableName: "user_6")
+        
+        print("表是否存在:\(exists)")
+    
+        
+        repository.close()
     }
     
+    func testExecuteQuery() {
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 1)
+        
+
+        let results = repository.executeQuery(sql: "select * from users")
+        print("查询结果:\(results)")
+        
+        defer {
+            repository.close()
+        }
+    }
+    
+    func testExecuteUpdate() {
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 1)
+    
+  
+            var succss = repository.executeUpdate(sql: "delete from users")
+            print("清除表:\(succss)")
+            
+            if succss {
+                let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
+                let params:Dictionary<String,Any>? = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
+                
+                succss = repository.executeUpdate(sql: insertTableSQL, params: params)
+                
+                if succss {
+                     print("新增一条数据成功:\(succss)")
+                }
+            }
+        
+        
+        defer {
+            repository.close()
+        }
+    }
+    
+    func testExecuteBatchUpdate() {
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 1)
+        
+        
+            let now:Date = Date()
+            let begin:TimeInterval = now.timeIntervalSince1970
+            
+            repository.executeInTransaction {
+                
+                for index in 0...5000 {
+                    let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
+                    let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
+                    let success = repository.executeUpdate(sql: insertTableSQL, params: params)
+                    print("插入表数据 :\(success)")
+                }
+                
+            }
+            
+            let end = Date().timeIntervalSince1970 - begin
+            print("批量情况下的耗时:\(end)")
+
+        
+        defer {
+            repository.close()
+        }
+    }
+    
+    func testExecuteBatchUpdate2() {
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 1)
+        
+        
+        let batchInsert = {
+            for index in 0...10000 {
+                let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
+                let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABCAAAAAAAAAAABBBBBBBCCCCCCC\(index)".utf8))]
+                let success = repository.executeUpdate(sql: insertTableSQL, params: params)
+            }
+        }
+            let now:Date = Date()
+            let begin:TimeInterval = now.timeIntervalSince1970
+    
+            
+            repository.executeInTransaction {
+                
+                batchInsert()
+                repository.executeInTransaction {
+                    batchInsert()
+                    repository.executeInTransaction {
+                        batchInsert()
+                    }
+                }
+            }
+            
+            let end = Date().timeIntervalSince1970 - begin
+            print("批量情况下的耗时:\(end)")
+        
+        
+        defer {
+            repository.close()
+        }
+    }
+    
+    func testSingleQuery() {
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 1)
+        
+        
+            let results = repository.executeSingleQuery(sql: "select * from users where name = 'AAA1'")
+            print("查询结果:\(results)")
+        
+        
+        defer {
+            repository.close()
+        }
+    }
 }

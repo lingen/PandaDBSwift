@@ -23,13 +23,18 @@ class CreateTableTest: XCTestCase {
     
     
     func testCreateTable1()  {
-        let name:Column = Column(name: "name")
-        let age:Column = Column(name: "age", type: .ColumnInt)
-        let weight:Column = Column(name: "weight", type: .ColumnReal)
-        let data:Column = Column(name: "data", type: .ColumnBlob)
-        let table:Table = Table(tableName: "user_2", columns: [name,age,weight,data])
+        
+        let table =  TableHelper
+            .createInstance(tableName: "user_3")
+            .textColumn(name: "name")
+            .intColumn(name: "age")
+            .realColumn(name: "weight")
+            .blobColumn(name: "data")
+            .build()!
+        
         let createTableSQL = table.createTableSQL()
         print("创建表的语句为:\(createTableSQL)")
+        
     }
     
 }
