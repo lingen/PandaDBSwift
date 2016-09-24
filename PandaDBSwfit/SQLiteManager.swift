@@ -244,7 +244,7 @@ class SQLiteManager: NSObject {
         
         var copyPrams:Dictionary<String,Any> = [:]
         
-        var copySql:String = ""
+        var copySql:String = sql
         
         for (key,value) in params {
             if value is Array<Any> {

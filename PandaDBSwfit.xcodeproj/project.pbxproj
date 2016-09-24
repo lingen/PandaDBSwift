@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		671AD02E1D95FE7C00925A8C /* SQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */; };
 		672EDE511D964B8F00A97017 /* SQLiteManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE501D964B8F00A97017 /* SQLiteManagerTests.swift */; };
+		672EDE581D964E2400A97017 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE571D964E2400A97017 /* Column.swift */; };
+		672EDE5B1D96535C00A97017 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE5A1D96535C00A97017 /* Table.swift */; };
+		672EDE5D1D96587300A97017 /* CreateTableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE5C1D96587300A97017 /* CreateTableTest.swift */; };
+		672EDE5F1D96598A00A97017 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE5E1D96598A00A97017 /* Repository.swift */; };
+		672EDE651D965DCA00A97017 /* TableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE641D965DCA00A97017 /* TableProtocol.swift */; };
+		672EDE691D965E8200A97017 /* RepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE681D965E8200A97017 /* RepositoryTest.swift */; };
 		6746360F1D9247F000B49C42 /* PandaDBSwfit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 674636051D9247F000B49C42 /* PandaDBSwfit.framework */; };
 		674636211D92480200B49C42 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 674636201D92480200B49C42 /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
@@ -26,6 +32,12 @@
 /* Begin PBXFileReference section */
 		671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteManager.swift; sourceTree = "<group>"; };
 		672EDE501D964B8F00A97017 /* SQLiteManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteManagerTests.swift; sourceTree = "<group>"; };
+		672EDE571D964E2400A97017 /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
+		672EDE5A1D96535C00A97017 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		672EDE5C1D96587300A97017 /* CreateTableTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTableTest.swift; sourceTree = "<group>"; };
+		672EDE5E1D96598A00A97017 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		672EDE641D965DCA00A97017 /* TableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableProtocol.swift; sourceTree = "<group>"; };
+		672EDE681D965E8200A97017 /* RepositoryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryTest.swift; sourceTree = "<group>"; };
 		674636051D9247F000B49C42 /* PandaDBSwfit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PandaDBSwfit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		674636091D9247F000B49C42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6746360E1D9247F000B49C42 /* PandaDBSwfitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PandaDBSwfitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +89,10 @@
 			isa = PBXGroup;
 			children = (
 				671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */,
+				672EDE571D964E2400A97017 /* Column.swift */,
+				672EDE5A1D96535C00A97017 /* Table.swift */,
+				672EDE641D965DCA00A97017 /* TableProtocol.swift */,
+				672EDE5E1D96598A00A97017 /* Repository.swift */,
 				674636221D92487E00B49C42 /* SQLite-Bridge.h */,
 				674636061D9247F000B49C42 /* Products */,
 				674636091D9247F000B49C42 /* Info.plist */,
@@ -89,6 +105,8 @@
 			children = (
 				674636151D9247F000B49C42 /* Info.plist */,
 				672EDE501D964B8F00A97017 /* SQLiteManagerTests.swift */,
+				672EDE5C1D96587300A97017 /* CreateTableTest.swift */,
+				672EDE681D965E8200A97017 /* RepositoryTest.swift */,
 			);
 			path = PandaDBSwfitTests;
 			sourceTree = "<group>";
@@ -214,7 +232,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				672EDE5B1D96535C00A97017 /* Table.swift in Sources */,
 				671AD02E1D95FE7C00925A8C /* SQLiteManager.swift in Sources */,
+				672EDE581D964E2400A97017 /* Column.swift in Sources */,
+				672EDE651D965DCA00A97017 /* TableProtocol.swift in Sources */,
+				672EDE5F1D96598A00A97017 /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +244,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				672EDE5D1D96587300A97017 /* CreateTableTest.swift in Sources */,
 				672EDE511D964B8F00A97017 /* SQLiteManagerTests.swift in Sources */,
+				672EDE691D965E8200A97017 /* RepositoryTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
