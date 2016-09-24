@@ -27,7 +27,7 @@ class PandaDBSwfitTests: XCTestCase {
         
         dbManager.openDB(dbName: "abc.sqlite")
         
-        let createTableSQL:String = "create table if not exists users (name text not null, age int )"
+        let createTableSQL:String = "create table if not exists users (name text not null, age int,weight real,info BLOB)"
 
         
         let success = dbManager.executeUpdate(sql: createTableSQL)
@@ -45,10 +45,11 @@ class PandaDBSwfitTests: XCTestCase {
         let now:Date = Date()
         let begin:TimeInterval = now.timeIntervalSince1970
         
-        for index in 1 ... 1000 {
-            let insertTableSQL = "insert into users (name,age) values (:name,:age)"
+        for index in 1 ... 2 {
+            let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
             
-            let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)"]
+            
+            let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
             
             let success = dbManager.executeUpdate(sql: insertTableSQL, params: params)
             
@@ -73,9 +74,10 @@ class PandaDBSwfitTests: XCTestCase {
         dbManager.beginTransaction()
         
         for index in 1 ... 1000 {
-            let insertTableSQL = "insert into users (name,age) values (:name,:age)"
+            let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
             
-            let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)"]
+            
+            let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
             
             let success = dbManager.executeUpdate(sql: insertTableSQL, params: params)
             
@@ -113,7 +115,20 @@ class PandaDBSwfitTests: XCTestCase {
         
         let querySQL:String = "select * from users"
         
-        let results = dbManager.executeQuery(sql: querySQL, params: [:])
+        let results = dbManager.executeQuery(sql: querySQL)
+        
+        print("查询出来的结果是：\(results)")
+        dbManager.close()
+    }
+    
+    func testQueryWithParams()  {
+        let dbManager:SQLiteManager = SQLiteManager.sharedInstance()
+        dbManager.openDB(dbName: "abc.sqlite")
+        
+        
+        let querySQL:String = "select * from users WHERE age in (:age)"
+        
+        let results = dbManager.executeQuery(sql: querySQL, params: ["age":[1,2,3] ])
         
         print("查询出来的结果是：\(results)")
         dbManager.close()

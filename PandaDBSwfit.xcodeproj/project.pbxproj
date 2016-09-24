@@ -59,7 +59,6 @@
 			children = (
 				674636071D9247F000B49C42 /* PandaDBSwfit */,
 				674636121D9247F000B49C42 /* PandaDBSwfitTests */,
-				674636061D9247F000B49C42 /* Products */,
 				6746361F1D92480100B49C42 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +70,7 @@
 				6746360E1D9247F000B49C42 /* PandaDBSwfitTests.xctest */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		674636071D9247F000B49C42 /* PandaDBSwfit */ = {
@@ -78,6 +78,7 @@
 			children = (
 				671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */,
 				674636221D92487E00B49C42 /* SQLite-Bridge.h */,
+				674636061D9247F000B49C42 /* Products */,
 				674636091D9247F000B49C42 /* Info.plist */,
 			);
 			path = PandaDBSwfit;
