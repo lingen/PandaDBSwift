@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Table: NSObject {
+class Table {
     
     private static let OPF_ID = "OPF_ID_"
     

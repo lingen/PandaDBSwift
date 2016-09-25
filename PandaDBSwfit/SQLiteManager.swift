@@ -12,7 +12,7 @@ import Foundation
 /**
  * SQLite数据库管理类
  */
-class SQLiteManager: NSObject {
+class SQLiteManager {
     
     private static let BEGIN_TRANSACTION:String = "BEGIN TRANSACTION;"
     

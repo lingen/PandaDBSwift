@@ -36,7 +36,7 @@ enum ColumnType {
 /*
  * 一个 Column对象代表一列
  */
-class Column: NSObject {
+class Column {
     
     private static let COLUMN_TEXT = "TEXT"
     

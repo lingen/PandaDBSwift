@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TableHelper: NSObject {
+class TableHelper {
     
     
     private var columns:Array<Column> = []

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Repository: NSObject {
+class Repository {
     
     private var dbHelper:SQLiteManager
     
