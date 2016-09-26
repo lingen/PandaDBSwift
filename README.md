@@ -15,6 +15,20 @@ PandaDBSwift基于Swift3的开源数据库框架，它的主要特点为：
 >笔者移动端的一个最重要的开发规范是: 
 >> 服务层异步，数据库&网络层同步，请参阅[御剑的IOS开源编码规范](http://ios-guildline.lingenliu.com/)以了解更多详情  (Swift版要在笔者完成至少一个APP后才提供，以验证可行性)
 
+## 如何在项目中引用它
+
+> cocoapods
+
+~~~
+ 框架还未有效在APP中使用，不提供此引用方式
+~~~
+
+> framework依赖
+
+~~~
+ 请下载源码，使用Xcode编译，可以得到PandaDbSwift.framework，请在项目中加入依赖以使用
+~~~
+
 ## 数据库及表的定义
 >如何一个数据库对象
 
