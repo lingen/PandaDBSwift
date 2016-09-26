@@ -1,7 +1,9 @@
 # PandaDBSwift简述
 PandaDBSwift基于Swift3的开源数据库框架，它的主要特点为：
 
+
 1. 基于Swift3语法，支持IOS 8.0以上
+2. 基于IOS平台自带的SQLite C类库实现的数据操作
 2. 同步的数据库操作
 3. 倡导SQLite及原生SQL编写
 4. 封装了表的创建及升级
@@ -223,3 +225,46 @@ PandaDbSwift只支持命名查询方式
 >> 笔者的框架有一个重要理念：只提供更少的选择
 >> 
 >> 上述两种方式都可以，但笔者希望APP只使用某一种方式，以保证APP风格的统一；
+
+
+## 支持的SQL字段及对应
+
+| SQL字段  | Swift字段 |
+|----------|----------|
+| TEXT     | String |
+| INT      | Int    |
+| Real     | Double  |
+| Blob     | Data    |
+
+对应关系是指，这些字段查询出来的返回值对应SWIFT相应字段
+
+同样，命名参数中传递的Swift字段也按表对应去传递，否则会报错
+
+
+## 对in的处理
+C的SQL语法并未提供命名参数与数据对应这种，PandaDbSwift对此做了处理
+
+> SQL写法
+
+~~~
+  select * from users where name in (:name)
+~~~
+
+> 参数传递
+
+~~~
+  ["name":["AAA1","AAA2"]];
+~~~
+
+> 实现原理：
+
+在遇到in (:name)这种SQL时，会对SQL及参数进行分拆,最终变成
+
+~~~
+SQL: select * from uses where name in (:name0,:name1)
+
+参数：
+["name0":"AAA1,"name1":"AAA2"]
+
+~~~
+
