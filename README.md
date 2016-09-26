@@ -95,7 +95,6 @@ PandaDBSwift基于Swift3的开源数据库框架，它的主要特点为：
 ## 数据库API
 
 ### 更新API
-> 更新SQL，不带参数
 
 ~~~swift
 //传入一个SQL字符，返回执行结果 是否正确
@@ -242,7 +241,7 @@ PandaDbSwift只支持命名查询方式
 
 
 ## 对in的处理
-C的SQL语法并未提供命名参数与数据对应这种，PandaDbSwift对此做了处理
+C的SQL语法并未提供命名参数in (:name)的原生支持，PandaDbSwift对此做了处理
 
 > SQL写法
 
