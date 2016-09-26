@@ -71,7 +71,9 @@ PandaDBSwift基于Swift3的开源数据库框架，它的主要特点为：
         let repository = Repository.createRepository(dbName: "abc.sqlite", tables: tables, version: 1, updateBlock:updateBlock)
 ~~~
 
-按照如上定义，repository就是数据库对象，你可以使用它进行数据库操作了
+按照如上定义，repository就是数据库对象，你可以使用它进行数据库操作了,
+
+> abc.sqlite将会在APP的Document目录下自行创建（如果不存在的话）
 
 
 ## 数据库API
