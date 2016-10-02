@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TableHelper {
+class TableBuilder {
     
     
     private var columns:Array<Column> = []
@@ -23,73 +23,73 @@ class TableHelper {
         self.tableName = tableName
     }
     
-    class func createInstance(tableName:String) -> TableHelper {
-        return TableHelper(tableName: tableName);
+    class func createInstance(tableName:String) -> TableBuilder {
+        return TableBuilder(tableName: tableName);
     }
     
-    func column(name:String,type:ColumnType,nullable:Bool) -> TableHelper {
+    func column(name:String,type:ColumnType,nullable:Bool) -> TableBuilder {
         let column:Column = Column(name: name, type: type, nullable: nullable)
         columns.append(column)
         return self
     }
     
-    func primaryColumn(name:String,type:ColumnType) -> TableHelper {
+    func primaryColumn(name:String,type:ColumnType) -> TableBuilder {
         let column:Column = Column(name: name, type: type, nullable: false)
         columns.append(column)
         primayColumns.append(column)
         return self
     }
     
-    func indexColumn(name:String,type:ColumnType) -> TableHelper {
+    func indexColumn(name:String,type:ColumnType) -> TableBuilder {
         let column:Column = Column(name: name, type: type)
         columns.append(column)
         indexColumns.append(column)
         return self
     }
     
-    func textColumn(name:String) -> TableHelper {
+    func textColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnText)
         columns.append(column)
         return self;
     }
     
-    func textNoNullColumn(name:String) -> TableHelper {
+    func textNoNullColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnText,nullable:false)
         columns.append(column)
         return self;
     }
     
-    func intColumn(name:String) -> TableHelper {
+    func intColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnInt)
         columns.append(column)
         return self;
     }
     
-    func intNotNullColumn(name:String) -> TableHelper {
+    func intNotNullColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnInt,nullable:false)
         columns.append(column)
         return self;
     }
     
-    func realColumn(name:String) -> TableHelper {
+    func realColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnReal)
         columns.append(column)
         return self;
     }
     
-    func realNotNullColumn(name:String) -> TableHelper {
+    func realNotNullColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnReal,nullable:false)
         columns.append(column)
         return self;
     }
     
-    func blobColumn(name:String) -> TableHelper {
+    func blobColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnBlob)
         columns.append(column)
         return self;
     }
     
-    func blobNotNullColumn(name:String) -> TableHelper {
+    func blobNotNullColumn(name:String) -> TableBuilder {
         let column:Column = Column(name: name, type: .ColumnBlob,nullable:false)
         columns.append(column)
         return self;
