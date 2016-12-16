@@ -11,7 +11,7 @@ import Foundation
 /*
  * 一个 Column数据库所属的类型
  */
-enum ColumnType {
+public enum ColumnType {
     /*
      * text类型
      */
@@ -36,7 +36,7 @@ enum ColumnType {
 /*
  * 一个 Column对象代表一列
  */
-class Column {
+public class Column {
     
     private static let COLUMN_TEXT = "TEXT"
     

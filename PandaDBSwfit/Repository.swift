@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Repository {
+public class Repository {
     
     private var dbHelper:SQLiteManager
     
@@ -37,7 +37,7 @@ class Repository {
         self.version = version
     }
     
-    class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int) -> Repository{
+    public class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int) -> Repository{
         let repository = Repository(dbName: dbName, tables: tables, version: version)
         let success = repository.open()
         if success {
@@ -46,7 +46,7 @@ class Repository {
         return repository
     }
     
-    class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int,updateBlock:((_ from:Int,_ to:Int)->String)? ) -> Repository{
+    public class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int,updateBlock:((_ from:Int,_ to:Int)->String)? ) -> Repository{
         let repository = Repository(dbName: dbName, tables: tables, version: version)
         repository.updateBlock = updateBlock;
     
@@ -148,7 +148,7 @@ class Repository {
     }
     
     
-    func executeUpdate(sql:String) -> Bool {
+    public func executeUpdate(sql:String) -> Bool {
         var success:Bool = false
         self.wirter { (dbHelper) in
             success = dbHelper.executeUpdate(sql: sql)
@@ -156,7 +156,7 @@ class Repository {
         return success
     }
     
-    func executeUpdate(sql:String,params:Dictionary<String,Any>?) -> Bool {
+    public func executeUpdate(sql:String,params:Dictionary<String,Any>?) -> Bool {
         var success:Bool = false
         self.wirter { (dbHelper) in
             success = dbHelper.executeUpdate(sql: sql, params: params)
@@ -164,7 +164,7 @@ class Repository {
         return success
     }
     
-    func executeInTransaction(dbBlock:(Void) -> Void) {
+    public func executeInTransaction(dbBlock:(Void) -> Void) {
         if self.isInTransaction() {
             dbBlock()
         }else{
@@ -178,7 +178,7 @@ class Repository {
         }
     }
     
-    func executeQuery(sql:String) -> Array<Dictionary<String,Any>>? {
+    public func executeQuery(sql:String) -> Array<Dictionary<String,Any>>? {
         var result:Array<Dictionary<String,Any>>?
         self.reader { (dbHelper) in
             result = dbHelper.executeQuery(sql: sql)
@@ -186,7 +186,7 @@ class Repository {
         return result;
     }
     
-    func executeQuery(sql:String,params:Dictionary<String,Any>?) -> Array<Dictionary<String,Any>>? {
+    public func executeQuery(sql:String,params:Dictionary<String,Any>?) -> Array<Dictionary<String,Any>>? {
         var result:Array<Dictionary<String,Any>>?
         self.reader { (dbHelper) in
             result = dbHelper.executeQuery(sql: sql, params: params)
@@ -195,7 +195,7 @@ class Repository {
     }
     
     
-    func executeSingleQuery(sql:String) -> Dictionary<String,Any>? {
+    public func executeSingleQuery(sql:String) -> Dictionary<String,Any>? {
         var result:Dictionary<String,Any>?
         self.reader { (dbHelper) in
             let dicResults = dbHelper.executeQuery(sql: sql)
@@ -207,7 +207,7 @@ class Repository {
     }
     
     
-    func executeSingleQuery(sql:String,params:Dictionary<String,Any>?) -> Dictionary<String,Any>? {
+    public func executeSingleQuery(sql:String,params:Dictionary<String,Any>?) -> Dictionary<String,Any>? {
         var result:Dictionary<String,Any>?
         self.reader { (dbHelper) in
             let dicResults = dbHelper.executeQuery(sql: sql,params:params)
@@ -219,7 +219,7 @@ class Repository {
     }
     
     
-    func tableExists(tableName:String) -> Bool {
+    public func tableExists(tableName:String) -> Bool {
         var exists = false;
         
         self.queue.sync {
@@ -238,7 +238,7 @@ class Repository {
        return self.dbHelper.open()
     }
     
-    func close() {
+    public func close() {
         self.dbHelper.close()
     }
     
@@ -255,7 +255,7 @@ class Repository {
         Thread.current.name = nil
     }
     
-    func reader(readBlock: (_ dbHtlper:SQLiteManager) -> Void) {
+    private func reader(readBlock: (_ dbHtlper:SQLiteManager) -> Void) {
         if self.isInTransaction() {
             readBlock(self.dbHelper)
         }else{
@@ -267,7 +267,7 @@ class Repository {
         }
     }
     
-    func wirter(writeBlock: (_ dbHelper:SQLiteManager) -> Void) {
+    private func wirter(writeBlock: (_ dbHelper:SQLiteManager) -> Void) {
         if self.isInTransaction() {
             writeBlock(self.dbHelper)
         }else{
