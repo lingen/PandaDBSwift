@@ -77,17 +77,22 @@ class RepositoryTest: XCTestCase {
         
             let now:Date = Date()
             let begin:TimeInterval = now.timeIntervalSince1970
-            
-            repository.executeInTransaction {
-                
-                for index in 0...5000 {
-                    let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
-                    let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
-                    let success = repository.executeUpdate(sql: insertTableSQL, params: params)
-                    print("插入表数据 :\(success)")
-                }
-                
+        
+        let batchInsert:((Void)->Void) = { (Void) -> Void in
+            for index in 0...5000 {
+                let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
+                let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
+                let success = repository.executeUpdate(sql: insertTableSQL, params: params)
+                print("插入表数据 :\(success)")
             }
+        }
+        
+        repository.executeInTransaction {
+            batchInsert()
+            repository.executeInTransaction {
+                batchInsert()
+            }
+        }
             
             let end = Date().timeIntervalSince1970 - begin
             print("批量情况下的耗时:\(end)")
@@ -146,11 +151,41 @@ class RepositoryTest: XCTestCase {
     }
     
     func testUpdate() {
-        let updateBlock = { (from,to) -> String in
-            return self.update(from: from, to: to)
+        
+        //定义升级block
+        let updateBlock = { (from:Int,to:Int) -> String in
+            
+            if from == 1 && to == 2 {
+                //返回1到2的数据库升级语句
+                return "";
+            }
+            else if from == 2 && to == 3 {
+                //返回2到3的数据库升级语句
+                return "";
+            }
+            
+            return "";
         }
         
-        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 2, updateBlock:updateBlock)
+        //定义表
+        var tables:Array<(Void)->Table> = [];
+        
+        tables.append { (Void) -> Table in
+            
+            let table =  TableBuilder
+                .createInstance(tableName: "user_3")
+                .textColumn(name: "name")
+                .intColumn(name: "age")
+                .realColumn(name: "weight")
+                .blobColumn(name: "data")
+                .build()!
+            
+            return table;
+        }
+        
+        
+        //定义数据库repository
+        let repository = Repository.createRepository(dbName: "abc.sqlite", tables: tables, version: 1, updateBlock:updateBlock)
         
         let results = repository.executeSingleQuery(sql: "select * from users where name = 'AAA1'")
         print("查询结果:\(results)")
