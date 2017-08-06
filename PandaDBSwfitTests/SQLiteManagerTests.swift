@@ -145,7 +145,7 @@ class SQLiteManagerTests: XCTestCase {
             
             let results = dbManager.executeQuery(sql: querySQL)
             
-            print("查询出来的结果是：\(results)")
+            print("查询出来的结果是：\(String(describing: results))")
             dbManager.close()
         }else{
             print("数据库打开失败")
@@ -162,7 +162,7 @@ class SQLiteManagerTests: XCTestCase {
             
             let results = dbManager.executeQuery(sql: querySQL, params: ["age":[1,2,3] ])
             
-            print("查询出来的结果是：\(results)")
+            print("查询出来的结果是：\(String(describing: results))")
             dbManager.close()
         }else{
             print("数据库打开失败")

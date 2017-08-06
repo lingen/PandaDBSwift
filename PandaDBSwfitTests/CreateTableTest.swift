@@ -24,7 +24,7 @@ class CreateTableTest: XCTestCase {
     
     func testCreateTable1()  {
         
-        let table =  TableHelper
+        let table =  TableBuilder
             .createInstance(tableName: "user_3")
             .textColumn(name: "name")
             .intColumn(name: "age")

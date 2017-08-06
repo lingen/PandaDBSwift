@@ -40,7 +40,7 @@ class RepositoryTest: XCTestCase {
         
 
         let results = repository.executeQuery(sql: "select * from users")
-        print("查询结果:\(results)")
+        print("查询结果:\(String(describing: results))")
         
         defer {
             repository.close()
@@ -78,7 +78,7 @@ class RepositoryTest: XCTestCase {
             let now:Date = Date()
             let begin:TimeInterval = now.timeIntervalSince1970
         
-        let batchInsert:((Void)->Void) = { (Void) -> Void in
+        let batchInsert:(()->Void) = { (Void) -> Void in
             for index in 0...5000 {
                 let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
                 let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
@@ -142,7 +142,7 @@ class RepositoryTest: XCTestCase {
         let repository = Repository.createRepository(dbName: "abc.sqlite", tables: [], version: 1)
         
         let results = repository.executeSingleQuery(sql: "select * from users where name = 'AAA1'")
-        print("查询结果:\(results)")
+        print("查询结果:\(String(describing: results))")
         
         
         defer {
@@ -167,12 +167,13 @@ class RepositoryTest: XCTestCase {
             return "";
         }
         
-        //定义表
-        var tables:Array<(Void)->Table> = [];
+        //定义表"
+        var tables:Array<()->Table> = [];
         
         tables.append { (Void) -> Table in
             
-            let table =  TableBuilder
+            
+            let table = TableBuilder
                 .createInstance(tableName: "user_3")
                 .textColumn(name: "name")
                 .intColumn(name: "age")
@@ -188,7 +189,7 @@ class RepositoryTest: XCTestCase {
         let repository = Repository.createRepository(dbName: "abc.sqlite", tables: tables, version: 1, updateBlock:updateBlock)
         
         let results = repository.executeSingleQuery(sql: "select * from users where name = 'AAA1'")
-        print("查询结果:\(results)")
+        print("查询结果:\(String(describing: results))")
         
         defer {
             repository.close()

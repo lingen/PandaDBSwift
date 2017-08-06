@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6707A7EA1D9BA793002BCAF0 /* TableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6707A7E91D9BA793002BCAF0 /* TableBuilder.swift */; };
 		671AD02E1D95FE7C00925A8C /* SQLiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */; };
-		6723319E1DA1455500F914C4 /* B.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6723319D1DA1455500F914C4 /* B.swift */; };
 		672EDE511D964B8F00A97017 /* SQLiteManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE501D964B8F00A97017 /* SQLiteManagerTests.swift */; };
 		672EDE581D964E2400A97017 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE571D964E2400A97017 /* Column.swift */; };
 		672EDE5B1D96535C00A97017 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672EDE5A1D96535C00A97017 /* Table.swift */; };
@@ -35,7 +34,6 @@
 /* Begin PBXFileReference section */
 		6707A7E91D9BA793002BCAF0 /* TableBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableBuilder.swift; sourceTree = "<group>"; };
 		671AD02D1D95FE7C00925A8C /* SQLiteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteManager.swift; sourceTree = "<group>"; };
-		6723319D1DA1455500F914C4 /* B.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = B.swift; sourceTree = "<group>"; };
 		672EDE501D964B8F00A97017 /* SQLiteManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteManagerTests.swift; sourceTree = "<group>"; };
 		672EDE571D964E2400A97017 /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		672EDE5A1D96535C00A97017 /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
@@ -115,7 +113,6 @@
 				672EDE5C1D96587300A97017 /* CreateTableTest.swift */,
 				672EDE681D965E8200A97017 /* RepositoryTest.swift */,
 				678C9A3C1D96891F00AF8CB2 /* Users.swift */,
-				6723319D1DA1455500F914C4 /* B.swift */,
 			);
 			path = PandaDBSwfitTests;
 			sourceTree = "<group>";
@@ -256,7 +253,6 @@
 			files = (
 				678C9A3D1D96891F00AF8CB2 /* Users.swift in Sources */,
 				672EDE5D1D96587300A97017 /* CreateTableTest.swift in Sources */,
-				6723319E1DA1455500F914C4 /* B.swift in Sources */,
 				672EDE511D964B8F00A97017 /* SQLiteManagerTests.swift in Sources */,
 				672EDE691D965E8200A97017 /* RepositoryTest.swift in Sources */,
 			);

@@ -14,7 +14,7 @@ public class Repository {
     
     private var queue:DispatchQueue
     
-    private var tables:Array<(Void)->Table>
+    private var tables:Array<()->Table>
     
     private var version:Int
     
@@ -30,14 +30,14 @@ public class Repository {
 
     var updateBlock:((_ from:Int,_ to:Int)->String)? = nil
     
-    private init(dbName:String,tables:Array<(Void)->Table>,version:Int){
+    private init(dbName:String,tables:Array<()->Table>,version:Int){
         self.dbHelper = SQLiteManager.createInstance(dbName: dbName)
         self.queue = DispatchQueue(label: "Panda.DB.Swift.\(dbName)")
         self.tables = tables
         self.version = version
     }
     
-    public class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int) -> Repository{
+    public class func createRepository(dbName:String,tables:Array<()->Table>,version:Int) -> Repository{
         let repository = Repository(dbName: dbName, tables: tables, version: version)
         let success = repository.open()
         if success {
@@ -46,7 +46,7 @@ public class Repository {
         return repository
     }
     
-    public class func createRepository(dbName:String,tables:Array<(Void)->Table>,version:Int,updateBlock:((_ from:Int,_ to:Int)->String)? ) -> Repository{
+    public class func createRepository(dbName:String,tables:Array<()->Table>,version:Int,updateBlock:((_ from:Int,_ to:Int)->String)? ) -> Repository{
         let repository = Repository(dbName: dbName, tables: tables, version: version)
         repository.updateBlock = updateBlock;
     
@@ -164,7 +164,7 @@ public class Repository {
         return success
     }
     
-    public func executeInTransaction(dbBlock:(Void) -> Void) {
+    public func executeInTransaction(dbBlock:() -> Void) {
         if self.isInTransaction() {
             dbBlock()
         }else{
