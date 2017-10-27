@@ -7,7 +7,9 @@
 //
 
 import XCTest
+
 @testable import PandaDBSwfit
+
 
 class SQLiteManagerTests: XCTestCase {
     
@@ -25,7 +27,7 @@ class SQLiteManagerTests: XCTestCase {
     
     func testCreateTable() {
         
-        let dbManager:SQLiteManager = SQLiteManager.createInstance(dbName: dbName)
+        let dbManager:SQLiteManager = SQLiteManager(dbName:dbName)
         
         
         
@@ -47,7 +49,7 @@ class SQLiteManagerTests: XCTestCase {
     }
     
     func testInsertData() {
-        let dbManager:SQLiteManager = SQLiteManager.createInstance(dbName: dbName)
+        let dbManager:SQLiteManager = SQLiteManager(dbName:dbName)
         
         let success = dbManager.open()
 
@@ -79,7 +81,7 @@ class SQLiteManagerTests: XCTestCase {
     }
     
     func testBatchInsertData() {
-        let dbManager:SQLiteManager = SQLiteManager.createInstance(dbName: dbName)
+        let dbManager:SQLiteManager = SQLiteManager(dbName:dbName)
         
         let success = dbManager.open()
         
@@ -115,7 +117,7 @@ class SQLiteManagerTests: XCTestCase {
     }
     
     func testDeleteDatas() {
-        let dbManager:SQLiteManager = SQLiteManager.createInstance(dbName: dbName)
+        let dbManager:SQLiteManager = SQLiteManager(dbName:dbName)
         
         let success = dbManager.open()
         
@@ -136,7 +138,7 @@ class SQLiteManagerTests: XCTestCase {
     }
     
     func testQuery() {
-        let dbManager:SQLiteManager = SQLiteManager.createInstance(dbName: dbName)
+        let dbManager:SQLiteManager = SQLiteManager(dbName:dbName)
         
         let success = dbManager.open()
         
@@ -153,7 +155,7 @@ class SQLiteManagerTests: XCTestCase {
     }
     
     func testQueryWithParams()  {
-        let dbManager:SQLiteManager = SQLiteManager.createInstance(dbName: dbName)
+        let dbManager:SQLiteManager = SQLiteManager(dbName:dbName)
         
         let success = dbManager.open()
         

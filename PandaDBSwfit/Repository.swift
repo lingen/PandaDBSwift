@@ -31,7 +31,7 @@ public class Repository {
     var updateBlock:((_ from:Int,_ to:Int)->String)? = nil
     
     private init(dbName:String,tables:Array<()->Table>,version:Int){
-        self.dbHelper = SQLiteManager.createInstance(dbName: dbName)
+        self.dbHelper = SQLiteManager(dbName:dbName)
         self.queue = DispatchQueue(label: "Panda.DB.Swift.\(dbName)")
         self.tables = tables
         self.version = version

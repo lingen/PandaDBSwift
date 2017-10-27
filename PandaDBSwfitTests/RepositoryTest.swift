@@ -78,7 +78,7 @@ class RepositoryTest: XCTestCase {
             let now:Date = Date()
             let begin:TimeInterval = now.timeIntervalSince1970
         
-        let batchInsert:(()->Void) = { (Void) -> Void in
+        let batchInsert:(()->Void) = { () -> Void in
             for index in 0...5000 {
                 let insertTableSQL = "insert into users (name,age,weight,info) values (:name,:age,:weight,:info)"
                 let params:Dictionary<String,Any> = ["age":index,"name":"AAA\(index)","weight":10.00,"info":Data(bytes: Array("ABC\(index)".utf8))]
@@ -170,7 +170,7 @@ class RepositoryTest: XCTestCase {
         //定义表"
         var tables:Array<()->Table> = [];
         
-        tables.append { (Void) -> Table in
+        tables.append { () -> Table in
             
             
             let table = TableBuilder

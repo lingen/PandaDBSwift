@@ -32,12 +32,8 @@ class SQLiteManager {
     
     private var inTransaction:Bool = false
     
-    private init(dbName:String) {
+    public init(dbName:String) {
         self.dbName = dbName
-    }
-
-    public class func createInstance(dbName:String) -> SQLiteManager {
-        return SQLiteManager(dbName: dbName)
     }
     
     func open() -> Bool{
